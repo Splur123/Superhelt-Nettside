@@ -2,14 +2,60 @@
 <html lang="nb">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> | Superhelt Nettside</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title><%= title %> | Superhelt Nettside</title>
+    <!-- Comprehensive favicon setup for all browsers -->
+    <!-- SVG favicon for modern browsers -->
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+    <!-- Fallback PNG favicon -->
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <!-- Traditional ICO favicon for older browsers -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Embedded base64 SVG favicon as ultimate fallback -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMDA3QkZGIiByeD0iNCIgLz4KICA8dGV4dCB4PSIxNiIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPlM8L3RleHQ+Cjwvc3ZnPg==" type="image/svg+xml">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- Custom CSS with version parameter to prevent caching -->
+    <link rel="stylesheet" href="/css/style.css?v=<%= Date.now() %>" type="text/css">
+    <link rel="stylesheet" href="/css/test.css?v=<%= Date.now() %>" type="text/css">    <!-- CSS Debug disabled -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // CSS loading detection is disabled
+            // Only logging CSS files to console for debugging purposes
+            console.log('CSS files loaded:', 
+                Array.from(document.styleSheets)
+                    .map(ss => ss.href)
+                    .filter(Boolean)
+            );
+        });
+    </script>
+    <style>
+        /* Fallback styles in case external CSS fails to load */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .hero-section {
+            background-color: #343a40;
+            padding: 80px 0;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->

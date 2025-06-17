@@ -3,13 +3,12 @@
         <div class="col-md-6">
             <div class="mb-4">
                 <i class="fas fa-bug text-danger display-1"></i>
-            </div>
-            <h1 class="mb-3">Oops, noe gikk galt!</h1>
+            </div>            <h1 class="mb-3">Oops, something went wrong!</h1>
             <p class="lead mb-4"><%= message %></p>
             <% if (process.env.NODE_ENV === 'development' && error) { %>
                 <div class="card mb-4">
                     <div class="card-header bg-danger text-white">
-                        Feildetaljer
+                        Error Details
                     </div>
                     <div class="card-body text-start">
                         <pre class="mb-0"><%= error.stack %></pre>
@@ -17,7 +16,7 @@
                 </div>
             <% } %>
             <a href="/" class="btn btn-primary btn-lg">
-                <i class="fas fa-home me-2"></i>Gå til forsiden
+                <i class="fas fa-home me-2"></i>Go to Homepage
             </a>
         </div>
     </div>

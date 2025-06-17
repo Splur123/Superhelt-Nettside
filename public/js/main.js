@@ -44,5 +44,44 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.addEventListener('blur', function() {
             this.parentElement.classList.remove('shadow');
         });
+    }    // Set hero images as card backgrounds
+    setTimeout(function() {
+        const heroCards = document.querySelectorAll('.card');
+        console.log('Found', heroCards.length, 'hero cards');
+        
+        heroCards.forEach(function(card, index) {
+            const img = card.querySelector('.card-img-top');
+            if (img) {
+                // Wait for image to load
+                if (img.complete) {
+                    setCardBackground(card, img, index);
+                } else {
+                    img.onload = function() {
+                        setCardBackground(card, img, index);
+                    };
+                }
+            } else {
+                console.log('No image found for card', index);
+            }
+        });
+    }, 100);
+
+    function setCardBackground(card, img, index) {
+        const imageUrl = img.src;
+        console.log('Setting background for card', index, 'with image:', imageUrl);
+        
+        // Set the background image
+        card.style.backgroundImage = `url("${imageUrl}")`;
+        card.style.backgroundSize = 'cover';
+        card.style.backgroundPosition = 'center';
+        card.style.backgroundRepeat = 'no-repeat';
+        
+        // Hide the img element after a short delay
+        setTimeout(function() {
+            img.style.opacity = '0';
+            setTimeout(function() {
+                img.style.display = 'none';
+            }, 300);
+        }, 500);
     }
 });

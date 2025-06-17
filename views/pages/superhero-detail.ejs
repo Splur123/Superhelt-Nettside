@@ -11,9 +11,8 @@
                     <% } %>
                     
                     <% if (locals.user) { %>
-                        <form action="/profile/favorites/add/<%= superhero.id %>" method="POST">
-                            <button type="submit" class="btn btn-outline-danger w-100">
-                                <i class="far fa-heart me-2"></i> Legg til i favoritter
+                        <form action="/profile/favorites/add/<%= superhero.id %>" method="POST">                            <button type="submit" class="btn btn-outline-danger w-100">
+                                <i class="far fa-heart me-2"></i> Add to favorites
                             </button>
                         </form>
                     <% } %>
@@ -26,50 +25,50 @@
             <!-- Power Stats -->
             <div class="card mb-4 shadow">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Krefter</h5>
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Powers</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <% if (superhero.powerstats) { %>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Intelligens</label>
+                                <label class="form-label">Intelligence</label>
                                 <div class="progress">
                                     <div class="progress-bar bg-info" role="progressbar" style="width: <%= superhero.powerstats.intelligence %>%" aria-valuenow="<%= superhero.powerstats.intelligence %>" aria-valuemin="0" aria-valuemax="100"><%= superhero.powerstats.intelligence %>%</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Styrke</label>
+                                <label class="form-label">Strength</label>
                                 <div class="progress">
                                     <div class="progress-bar bg-danger" role="progressbar" style="width: <%= superhero.powerstats.strength %>%" aria-valuenow="<%= superhero.powerstats.strength %>" aria-valuemin="0" aria-valuemax="100"><%= superhero.powerstats.strength %>%</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Hastighet</label>
+                                <label class="form-label">Speed</label>
                                 <div class="progress">
                                     <div class="progress-bar bg-warning" role="progressbar" style="width: <%= superhero.powerstats.speed %>%" aria-valuenow="<%= superhero.powerstats.speed %>" aria-valuemin="0" aria-valuemax="100"><%= superhero.powerstats.speed %>%</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Utholdenhet</label>
+                                <label class="form-label">Durability</label>
                                 <div class="progress">
                                     <div class="progress-bar bg-success" role="progressbar" style="width: <%= superhero.powerstats.durability %>%" aria-valuenow="<%= superhero.powerstats.durability %>" aria-valuemin="0" aria-valuemax="100"><%= superhero.powerstats.durability %>%</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Kraft</label>
+                                <label class="form-label">Power</label>
                                 <div class="progress">
                                     <div class="progress-bar bg-primary" role="progressbar" style="width: <%= superhero.powerstats.power %>%" aria-valuenow="<%= superhero.powerstats.power %>" aria-valuemin="0" aria-valuemax="100"><%= superhero.powerstats.power %>%</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Kampferdigheter</label>
+                                <label class="form-label">Combat Skills</label>
                                 <div class="progress">
                                     <div class="progress-bar bg-dark" role="progressbar" style="width: <%= superhero.powerstats.combat %>%" aria-valuenow="<%= superhero.powerstats.combat %>" aria-valuemin="0" aria-valuemax="100"><%= superhero.powerstats.combat %>%</div>
                                 </div>
                             </div>
                         <% } else { %>
                             <div class="col-12">
-                                <p class="text-muted">Ingen kraftinformasjon tilgjengelig.</p>
+                                <p class="text-muted">No power information available.</p>
                             </div>
                         <% } %>
                     </div>
@@ -79,36 +78,35 @@
             <!-- Biography -->
             <div class="card mb-4 shadow">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-book me-2"></i>Biografi</h5>
+                    <h5 class="mb-0"><i class="fas fa-book me-2"></i>Biography</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <% if (superhero.biography) { %>
-                            <div class="col-md-6 mb-3">
-                                <strong>Utgiver:</strong>
-                                <p><%= superhero.biography.publisher || 'Ukjent' %></p>
+                            <div class="col-md-6 mb-3">                                <strong>Publisher:</strong>
+                                <p><%= superhero.biography.publisher || 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <strong>Første opptreden:</strong>
-                                <p><%= superhero.biography.firstAppearance || 'Ukjent' %></p>
+                                <strong>First Appearance:</strong>
+                                <p><%= superhero.biography.firstAppearance || 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <strong>Fødested:</strong>
-                                <p><%= superhero.biography.placeOfBirth || 'Ukjent' %></p>
+                                <strong>Place of Birth:</strong>
+                                <p><%= superhero.biography.placeOfBirth || 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <strong>Innretting:</strong>
-                                <p><%= superhero.biography.alignment || 'Ukjent' %></p>
+                                <strong>Alignment:</strong>
+                                <p><%= superhero.biography.alignment || 'Unknown' %></p>
                             </div>
                             <% if (superhero.biography.aliases && superhero.biography.aliases.length > 0) { %>
                                 <div class="col-12 mb-3">
-                                    <strong>Alias:</strong>
+                                    <strong>Aliases:</strong>
                                     <p><%= superhero.biography.aliases.join(', ') %></p>
                                 </div>
                             <% } %>
                         <% } else { %>
                             <div class="col-12">
-                                <p class="text-muted">Ingen biografisk informasjon tilgjengelig.</p>
+                                <p class="text-muted">No biographical information available.</p>
                             </div>
                         <% } %>
                     </div>
@@ -118,38 +116,37 @@
             <!-- Appearance -->
             <div class="card mb-4 shadow">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Utseende</h5>
+                    <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Appearance</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <% if (superhero.appearance) { %>
-                            <div class="col-md-3 mb-3">
-                                <strong>Kjønn:</strong>
-                                <p><%= superhero.appearance.gender || 'Ukjent' %></p>
+                            <div class="col-md-3 mb-3">                                <strong>Gender:</strong>
+                                <p><%= superhero.appearance.gender || 'Unknown' %></p>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <strong>Rase:</strong>
-                                <p><%= superhero.appearance.race || 'Ukjent' %></p>
+                                <strong>Race:</strong>
+                                <p><%= superhero.appearance.race || 'Unknown' %></p>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <strong>Høyde:</strong>
-                                <p><%= (superhero.appearance.height && superhero.appearance.height.length > 0) ? superhero.appearance.height[1] : 'Ukjent' %></p>
+                                <strong>Height:</strong>
+                                <p><%= (superhero.appearance.height && superhero.appearance.height.length > 0) ? superhero.appearance.height[1] : 'Unknown' %></p>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <strong>Vekt:</strong>
-                                <p><%= (superhero.appearance.weight && superhero.appearance.weight.length > 0) ? superhero.appearance.weight[1] : 'Ukjent' %></p>
+                                <strong>Weight:</strong>
+                                <p><%= (superhero.appearance.weight && superhero.appearance.weight.length > 0) ? superhero.appearance.weight[1] : 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <strong>Øyenfarge:</strong>
-                                <p><%= superhero.appearance.eyeColor || 'Ukjent' %></p>
+                                <strong>Eye Color:</strong>
+                                <p><%= superhero.appearance.eyeColor || 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <strong>Hårfarge:</strong>
-                                <p><%= superhero.appearance.hairColor || 'Ukjent' %></p>
+                                <strong>Hair Color:</strong>
+                                <p><%= superhero.appearance.hairColor || 'Unknown' %></p>
                             </div>
                         <% } else { %>
                             <div class="col-12">
-                                <p class="text-muted">Ingen utseendeinformasjon tilgjengelig.</p>
+                                <p class="text-muted">No appearance information available.</p>
                             </div>
                         <% } %>
                     </div>
@@ -159,35 +156,33 @@
             <!-- Work & Connections -->
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Arbeid & Tilknytninger</h5>
+                    <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Work & Connections</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <% if (superhero.work) { %>
-                            <div class="col-md-6 mb-3">
-                                <strong>Yrke:</strong>
-                                <p><%= superhero.work.occupation || 'Ukjent' %></p>
+                            <div class="col-md-6 mb-3">                                <strong>Occupation:</strong>
+                                <p><%= superhero.work.occupation || 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <strong>Base:</strong>
-                                <p><%= superhero.work.base || 'Ukjent' %></p>
+                                <p><%= superhero.work.base || 'Unknown' %></p>
                             </div>
                         <% } %>
                         
                         <% if (superhero.connections) { %>
-                            <div class="col-md-6 mb-3">
-                                <strong>Gruppemedlemskap:</strong>
-                                <p><%= superhero.connections.groupAffiliation || 'Ukjent' %></p>
+                            <div class="col-md-6 mb-3">                                <strong>Group Affiliation:</strong>
+                                <p><%= superhero.connections.groupAffiliation || 'Unknown' %></p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <strong>Slektninger:</strong>
-                                <p><%= superhero.connections.relatives || 'Ukjent' %></p>
+                                <strong>Relatives:</strong>
+                                <p><%= superhero.connections.relatives || 'Unknown' %></p>
                             </div>
                         <% } %>
                         
                         <% if (!superhero.work && !superhero.connections) { %>
                             <div class="col-12">
-                                <p class="text-muted">Ingen arbeid eller tilknytningsinformasjon tilgjengelig.</p>
+                                <p class="text-muted">No work or connection information available.</p>
                             </div>
                         <% } %>
                     </div>
@@ -196,9 +191,8 @@
         </div>
     </div>
     
-    <div class="mt-4">
-        <a href="/" class="btn btn-secondary">
-            <i class="fas fa-arrow-left me-2"></i> Tilbake til oversikt
+    <div class="mt-4">        <a href="/" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Back to overview
         </a>
     </div>
 </div>

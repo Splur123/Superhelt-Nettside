@@ -3,16 +3,16 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Registrer deg</h4>
+                    <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Register</h4>
                 </div>
                 <div class="card-body">
                     <form action="/auth/register" method="POST">
                         <div class="mb-3">
-                            <label for="username" class="form-label">Brukernavn</label>
+                            <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" value="<%= typeof username != 'undefined' ? username : '' %>" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">E-post</label>
+                            <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="<%= typeof email != 'undefined' ? email : '' %>" required>
                         </div>
                         <div class="mb-3">

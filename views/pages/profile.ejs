@@ -2,9 +2,8 @@
     <div class="row">
         <div class="col-lg-4 mb-4">
             <!-- Profile Card -->
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Min Profil</h5>
+            <div class="card shadow">                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>My Profile</h5>
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-3">
@@ -12,16 +11,15 @@
                     </div>
                     <h4 class="text-center"><%= user.username %></h4>
                     <p class="text-muted text-center"><%= user.email %></p>
-                    <p class="text-center"><small>Medlem siden: <%= new Date(user.createdAt).toLocaleDateString('no-NO', { year: 'numeric', month: 'long', day: 'numeric' }) %></small></p>
+                    <p class="text-center"><small>Member since: <%= new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></small></p>
                 </div>
             </div>
         </div>
         
         <div class="col-lg-8">
             <!-- Favorites Card -->
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-heart me-2"></i>Mine Favoritter</h5>
+            <div class="card shadow">                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-heart me-2"></i>My Favorites</h5>
                 </div>
                 <div class="card-body">
                     <% if (favorites && favorites.length > 0) { %>
@@ -49,12 +47,11 @@
                                 </div>
                             <% }); %>
                         </div>
-                    <% } else { %>
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i> Du har ingen favoritter enda. Bla gjennom superhelter og klikk på hjertet for å legge dem til.
+                    <% } else { %>                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i> You don't have any favorites yet. Browse superheroes and click the heart to add them.
                         </div>
                         <a href="/" class="btn btn-primary">
-                            <i class="fas fa-search me-2"></i> Utforsk superhelter
+                            <i class="fas fa-search me-2"></i> Explore Superheroes
                         </a>
                     <% } %>
                 </div>

@@ -1,33 +1,64 @@
 <div class="container">
-    <h1 class="mb-4">Søkeresultater for "<%= search %>"</h1>
+    <h1 class="mb-4">Search results for "<%= search %>"</h1>
     
     <% if (superheroes && superheroes.length > 0) { %>
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-            <% superheroes.forEach(hero => { %>
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>" style="height: 250px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= hero.name %></h5>
-                            <% if (hero.biography && hero.biography.publisher) { %>
-                                <p class="card-text text-muted"><%= hero.biography.publisher %></p>
-                            <% } %>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="/superhero/<%= hero.id %>" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-info-circle me-1"></i> Mer info
-                                </a>
-                                <% if (locals.user) { %>
-                                    <form action="/profile/favorites/add/<%= hero.id %>" method="POST">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">            <% superheroes.forEach(hero => { %>                <div class="col">
+                    <a href="/superhero/<%= hero.id %>" class="card-link text-decoration-none">
+                        <div class="card h-100 shadow-sm">
+                            <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= hero.name %></h5>
+                                <% if (hero.biography && hero.biography.publisher) { %>
+                                    <p class="hero-publisher">📍 <%= hero.biography.publisher %></p>
+                                <% } %>
+                                <% if (hero.biography && hero.biography.alignment) { %>
+                                    <p class="hero-alignment">⚖️ <%= hero.biography.alignment %></p>
+                                <% } %>                            <% if (hero.powerstats) { %>
+                                    <div class="hero-stats-overlay">
+                                        <% if (hero.powerstats.intelligence && hero.powerstats.intelligence !== 'null') { %>
+                                            <span class="stat stat-intelligence">INT: <%= hero.powerstats.intelligence %></span>
+                                        <% } else { %>
+                                            <span class="stat stat-intelligence">INT: --</span>
+                                        <% } %>
+                                        <% if (hero.powerstats.strength && hero.powerstats.strength !== 'null') { %>
+                                            <span class="stat stat-strength">STR: <%= hero.powerstats.strength %></span>
+                                        <% } else { %>
+                                            <span class="stat stat-strength">STR: --</span>
+                                        <% } %>
+                                        <% if (hero.powerstats.speed && hero.powerstats.speed !== 'null') { %>
+                                            <span class="stat stat-speed">SPD: <%= hero.powerstats.speed %></span>
+                                        <% } else { %>
+                                            <span class="stat stat-speed">SPD: --</span>
+                                        <% } %>
+                                        <% if (hero.powerstats.durability && hero.powerstats.durability !== 'null') { %>
+                                            <span class="stat stat-durability">DUR: <%= hero.powerstats.durability %></span>
+                                        <% } else { %>
+                                            <span class="stat stat-durability">DUR: --</span>
+                                        <% } %>
+                                        <% if (hero.powerstats.power && hero.powerstats.power !== 'null') { %>
+                                            <span class="stat stat-power">PWR: <%= hero.powerstats.power %></span>
+                                        <% } else { %>
+                                            <span class="stat stat-power">PWR: --</span>
+                                        <% } %>
+                                        <% if (hero.powerstats.combat && hero.powerstats.combat !== 'null') { %>
+                                            <span class="stat stat-combat">CMB: <%= hero.powerstats.combat %></span>
+                                        <% } else { %>
+                                            <span class="stat stat-combat">CMB: --</span>
+                                        <% } %>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <% if (locals.user) { %>
+                                <div class="card-footer bg-transparent">
+                                    <form action="/profile/favorites/add/<%= hero.id %>" method="POST" class="favorite-form" onclick="event.stopPropagation();">
+                                        <button type="submit" class="btn btn-sm btn-outline-light favorite-btn">
                                             <i class="far fa-heart"></i>
                                         </button>
                                     </form>
-                                <% } %>
-                            </div>
+                                </div>
+                            <% } %>
                         </div>
-                    </div>
+                    </a>
                 </div>
             <% }); %>
         </div>
@@ -36,13 +67,12 @@
         <% if (totalPages > 1) { %>
             <nav aria-label="Page navigation" class="mt-4">
                 <ul class="pagination justify-content-center">
-                    <% if (currentPage > 1) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="?q=<%= search %>&page=<%= currentPage - 1 %>">Forrige</a>
+                    <% if (currentPage > 1) { %>                        <li class="page-item">
+                            <a class="page-link" href="?q=<%= search %>&page=<%= currentPage - 1 %>">Previous</a>
                         </li>
                     <% } else { %>
                         <li class="page-item disabled">
-                            <span class="page-link">Forrige</span>
+                            <span class="page-link">Previous</span>
                         </li>
                     <% } %>
                     
@@ -58,24 +88,22 @@
                         <% } %>
                     <% } %>
                     
-                    <% if (currentPage < totalPages) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="?q=<%= search %>&page=<%= currentPage + 1 %>">Neste</a>
+                    <% if (currentPage < totalPages) { %>                        <li class="page-item">
+                            <a class="page-link" href="?q=<%= search %>&page=<%= currentPage + 1 %>">Next</a>
                         </li>
                     <% } else { %>
                         <li class="page-item disabled">
-                            <span class="page-link">Neste</span>
+                            <span class="page-link">Next</span>
                         </li>
                     <% } %>
                 </ul>
             </nav>
         <% } %>
-    <% } else { %>
-        <div class="alert alert-info">
-            <i class="fas fa-info-circle me-2"></i> Ingen superhelter funnet som matcher "<%= search %>".
+    <% } else { %>        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> No superheroes found matching "<%= search %>".
         </div>
         <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left me-2"></i> Tilbake til forsiden
+            <i class="fas fa-arrow-left me-2"></i> Back to homepage
         </a>
     <% } %>
 </div>

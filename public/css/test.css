@@ -1,0 +1,8 @@
+/* Test CSS file to check if static files are being served */
+.test-class {
+    color: red;
+    font-size: 24px;
+    background-color: yellow;
+    padding: 10px;
+    border: 2px solid blue;
+}

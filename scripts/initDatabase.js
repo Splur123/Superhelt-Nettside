@@ -12,13 +12,9 @@ async function initializeSuperheroes() {
         
         // Fetch first 100 superheroes in batches of 20
         const batches = [
-            { start: 1, end: 20 },
-            { start: 21, end: 40 },
-            { start: 41, end: 60 },
-            { start: 61, end: 80 },
-            { start: 81, end: 100 }
+            { start: 1, end: 20 }
         ];
-        
+
         let totalSaved = 0;
         let totalErrors = 0;
         let totalBatches = batches.length;
