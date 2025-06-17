@@ -1,6 +1,23 @@
 const Superhero = require('../models/Superhero');
 const superheroService = require('../services/superheroService');
 
+// Helper function to get user favorites
+const getUserFavoriteIds = async (userId) => {
+    try {
+        if (!userId) return [];
+        
+        const User = require('../models/User');
+        const user = await User.findById(userId).populate('favorites');
+        if (!user) return [];
+        
+        // Return array of superhero ids
+        return user.favorites.map(hero => hero.id);
+    } catch (err) {
+        console.error('Error getting user favorites:', err);
+        return [];
+    }
+};
+
 // Get all superheroes with pagination
 exports.getAllSuperheroes = async (req, res) => {
     try {
@@ -16,21 +33,29 @@ exports.getAllSuperheroes = async (req, res) => {
 
         const result = await superheroService.getSuperheroes(options);
         
+        // Get user favorites if logged in
+        let userFavorites = [];
+        if (req.session && req.session.user) {
+            userFavorites = await getUserFavoriteIds(req.session.user.id);
+        }
+        
         res.render('pages/index', {
-            title: 'Superhelter',
+            title: 'Superheroes',
             superheroes: result.superheroes,
             currentPage: page,
             totalPages: result.totalPages,
-            search
+            search,
+            userFavorites
         });
     } catch (err) {
         console.error('Error getting superheroes:', err);
-        req.flash('error_msg', 'Kunne ikke hente superhelter');
+        req.flash('error_msg', 'Could not fetch superheroes');
         res.render('pages/index', {
-            title: 'Superhelter',
+            title: 'Superheroes',
             superheroes: [],
             currentPage: 1,
-            totalPages: 1
+            totalPages: 1,
+            userFavorites: []
         });
     }
 };
@@ -42,17 +67,24 @@ exports.getSuperheroById = async (req, res) => {
         const superhero = await superheroService.getSuperheroById(superheroId);
         
         if (!superhero) {
-            req.flash('error_msg', 'Superhelten ble ikke funnet');
+            req.flash('error_msg', 'Superhero not found');
             return res.redirect('/');
+        }
+        
+        // Get user favorites if logged in
+        let userFavorites = [];
+        if (req.session && req.session.user) {
+            userFavorites = await getUserFavoriteIds(req.session.user.id);
         }
         
         res.render('pages/superhero-detail', {
             title: superhero.name,
-            superhero
+            superhero,
+            userFavorites
         });
     } catch (err) {
         console.error('Error getting superhero:', err);
-        req.flash('error_msg', 'Kunne ikke hente superhelten');
+        req.flash('error_msg', 'Could not fetch superhero');
         res.redirect('/');
     }
 };
@@ -77,16 +109,23 @@ exports.searchSuperheroes = async (req, res) => {
         
         const result = await superheroService.searchSuperheroes(options);
         
+        // Get user favorites if logged in
+        let userFavorites = [];
+        if (req.session && req.session.user) {
+            userFavorites = await getUserFavoriteIds(req.session.user.id);
+        }
+        
         res.render('pages/search-results', {
-            title: 'Søkeresultater',
+            title: 'Search Results',
             superheroes: result.superheroes,
             currentPage: page,
             totalPages: result.totalPages,
-            search
+            search,
+            userFavorites
         });
     } catch (err) {
         console.error('Error searching superheroes:', err);
-        req.flash('error_msg', 'En feil oppstod under søket');
+        req.flash('error_msg', 'An error occurred during search');
         res.redirect('/');
     }
 };

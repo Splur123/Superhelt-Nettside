@@ -47,12 +47,12 @@
                                         <% } %>
                                     </div>
                                 <% } %>
-                            </div>
-                            <% if (locals.user) { %>
+                            </div>                            <% if (locals.user) { %>
                                 <div class="card-footer bg-transparent">
-                                    <form action="/profile/favorites/add/<%= hero.id %>" method="POST" class="favorite-form" onclick="event.stopPropagation();">
-                                        <button type="submit" class="btn btn-sm btn-outline-light favorite-btn">
-                                            <i class="far fa-heart"></i>
+                                    <form action="/profile/favorites/toggle/<%= hero.id %>?returnUrl=/search?q=<%= search %>" method="POST" class="favorite-form" onclick="event.stopPropagation();">
+                                        <% const isFavorited = userFavorites && userFavorites.includes(hero.id); %>
+                                        <button type="submit" class="btn btn-sm btn-outline-light favorite-btn <%= isFavorited ? 'favorited' : '' %>">
+                                            <i class="<%= isFavorited ? 'fas' : 'far' %> fa-heart"></i>
                                         </button>
                                     </form>
                                 </div>

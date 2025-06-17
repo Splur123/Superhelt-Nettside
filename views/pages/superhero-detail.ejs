@@ -9,10 +9,12 @@
                     <% if (superhero.biography && superhero.biography.fullName) { %>
                         <p class="text-muted"><%= superhero.biography.fullName %></p>
                     <% } %>
-                    
-                    <% if (locals.user) { %>
-                        <form action="/profile/favorites/add/<%= superhero.id %>" method="POST">                            <button type="submit" class="btn btn-outline-danger w-100">
-                                <i class="far fa-heart me-2"></i> Add to favorites
+                      <% if (locals.user) { %>
+                        <form action="/profile/favorites/toggle/<%= superhero.id %>" method="POST">
+                            <% const isFavorited = userFavorites && userFavorites.includes(superhero.id); %>
+                            <button type="submit" class="btn <%= isFavorited ? 'btn-danger' : 'btn-outline-danger' %> w-100">
+                                <i class="<%= isFavorited ? 'fas' : 'far' %> fa-heart me-2"></i>
+                                <%= isFavorited ? 'Remove from favorites' : 'Add to favorites' %>
                             </button>
                         </form>
                     <% } %>
