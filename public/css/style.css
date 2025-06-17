@@ -443,8 +443,9 @@ footer {
     background-size: initial !important; /* Reset background */
     background-position: initial !important;
     background-repeat: initial !important;
-    background-color: #ffffff !important; /* White background for forms */
+    background-color: #1e2a38 !important; /* Dark blue background for forms */
     background-image: none !important; /* Remove any background image */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25) !important;
 }
 
 .form-card .card-body {
@@ -452,42 +453,59 @@ footer {
     background: transparent;
     position: static;
     min-height: 350px; /* Ensure enough space for form content */
+    color: #e9ecef; /* Light text for better contrast */
 }
 
 .form-card .card-footer {
-    background-color: #f8f9fa;
-    border-top: 1px solid #dee2e6;
+    background-color: #151d28;
+    border-top: 1px solid #2c3e50;
     padding: 1.5rem 2.5rem;
     position: relative;
     z-index: 10;
+    color: #e9ecef;
+}
+
+.form-card .card-footer a {
+    color: #5caefd;
+    font-weight: 500;
+}
+
+.form-card .card-footer a:hover {
+    color: #7fc1ff;
+    text-decoration: underline;
 }
 
 .form-card .card-header {
     padding: 1.5rem 2.5rem;
+    background-color: #2c3e50;
+    border-bottom: 1px solid #34495e;
 }
 
 /* Form specific improvements */
 .form-card .form-label {
     font-weight: 600;
-    color: #495057;
+    color: #e9ecef;
     margin-bottom: 0.5rem;
 }
 
 .form-card .form-control {
     border-radius: 8px;
-    border: 2px solid #e9ecef;
+    border: 2px solid #2c3e50;
     padding: 0.75rem 1rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin-bottom: 0.5rem;
+    background-color: #2c3e50;
+    color: #ffffff;
 }
 
 .form-card .form-control:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    background-color: #34495e;
 }
 
 .form-card .form-text {
-    color: #6c757d;
+    color: #adbac7;
     font-size: 0.875rem;
     margin-top: 0.25rem;
     margin-bottom: 0.5rem;
@@ -500,6 +518,14 @@ footer {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 1rem;
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff;
+}
+
+.form-card .btn:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
 }
 
 .form-card .mb-3 {
