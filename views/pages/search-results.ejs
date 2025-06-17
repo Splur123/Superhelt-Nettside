@@ -1,0 +1,81 @@
+<div class="container">
+    <h1 class="mb-4">Søkeresultater for "<%= search %>"</h1>
+    
+    <% if (superheroes && superheroes.length > 0) { %>
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            <% superheroes.forEach(hero => { %>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>" style="height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= hero.name %></h5>
+                            <% if (hero.biography && hero.biography.publisher) { %>
+                                <p class="card-text text-muted"><%= hero.biography.publisher %></p>
+                            <% } %>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="/superhero/<%= hero.id %>" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-info-circle me-1"></i> Mer info
+                                </a>
+                                <% if (locals.user) { %>
+                                    <form action="/profile/favorites/add/<%= hero.id %>" method="POST">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+        
+        <!-- Pagination -->
+        <% if (totalPages > 1) { %>
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <% if (currentPage > 1) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?q=<%= search %>&page=<%= currentPage - 1 %>">Forrige</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <span class="page-link">Forrige</span>
+                        </li>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <% if (i === currentPage) { %>
+                            <li class="page-item active">
+                                <span class="page-link"><%= i %></span>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?q=<%= search %>&page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                    <% } %>
+                    
+                    <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?q=<%= search %>&page=<%= currentPage + 1 %>">Neste</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <span class="page-link">Neste</span>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    <% } else { %>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> Ingen superhelter funnet som matcher "<%= search %>".
+        </div>
+        <a href="/" class="btn btn-primary">
+            <i class="fas fa-arrow-left me-2"></i> Tilbake til forsiden
+        </a>
+    <% } %>
+</div>

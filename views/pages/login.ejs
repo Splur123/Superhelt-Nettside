@@ -1,0 +1,29 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0"><i class="fas fa-sign-in-alt me-2"></i>Logg inn</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/auth/login" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-post</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<%= typeof email != 'undefined' ? email : '' %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Passord</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Logg inn</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Har du ikke en konto? <a href="/auth/register">Registrer deg</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

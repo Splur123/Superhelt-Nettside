@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Registrer deg</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/auth/register" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Brukernavn</label>
+                            <input type="text" class="form-control" id="username" name="username" value="<%= typeof username != 'undefined' ? username : '' %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-post</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<%= typeof email != 'undefined' ? email : '' %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Passord</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="form-text">Passord må inneholde minst 6 tegn.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Bekreft passord</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Registrer</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Har du allerede en konto? <a href="/auth/login">Logg inn</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
