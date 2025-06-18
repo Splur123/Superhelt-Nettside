@@ -147,14 +147,14 @@
 </div>
 
 <!-- Profile Edit Modal -->
-<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModalLabel" aria-hidden="true">
+<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModalLabel" aria-hidden="true" style="z-index: 9000;">
     <div class="modal-dialog">
-        <div class="modal-content dark-modal">
+        <div class="modal-content" style="pointer-events: auto !important; z-index: 9050 !important; background-color: #212529 !important; opacity: 1 !important;">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="profileEditModalLabel"><i class="fas fa-edit me-2"></i>Edit Profile</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/profile/update" method="POST">
+            <form action="/profile/update" method="POST" style="pointer-events: auto !important; z-index: 9100 !important; opacity: 1 !important; visibility: visible !important;">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="bio" class="form-label"><i class="fas fa-book me-2"></i>Bio (Max 500 characters)</label>

@@ -14,18 +14,7 @@ body {
     padding-bottom: 20px;
 }
 
-/* Add a subtle dark semi-transparent overlay to all pages for better contrast */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3); /* Very subtle dark overlay */
-    pointer-events: none; /* Allow clicks to pass through */
-    z-index: -1; /* Behind all content */
-}
+/* Removed dark overlay to prevent interference with modals */
 
 /* Form cards with dark background */
 .form-card {

@@ -84,5 +84,85 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 500);
         */
-    }
+    }    // Modal functionality improvements
+    // Handle profile edit modal
+    const profileEditModal = document.getElementById('profileEditModal');
+    if (profileEditModal) {
+        // Fix modal interaction function
+        const fixModalInteraction = function() {
+            // Make sure modal content is interactive
+            profileEditModal.style.zIndex = '9000';
+            
+            const modalContent = profileEditModal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.style.pointerEvents = 'auto';
+                modalContent.style.zIndex = '9050';
+            }
+            
+            const modalForm = profileEditModal.querySelector('form');
+            if (modalForm) {
+                modalForm.style.pointerEvents = 'auto';
+                modalForm.style.zIndex = '9100';
+            }
+            
+            // Ensure ALL form elements are interactive
+            const formElements = profileEditModal.querySelectorAll('.form-control, .form-check-input, button, label, textarea, input, select, .form-text');
+            formElements.forEach(function(element) {
+                element.style.pointerEvents = 'auto';
+                element.style.position = 'relative';
+                element.style.zIndex = '9100';
+            });
+
+            // Remove any potential overlays
+            document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
+                backdrop.style.pointerEvents = 'none';
+            });
+        };
+        
+        // Apply fixes immediately
+        fixModalInteraction();
+        
+        // Also apply when modal is shown
+        profileEditModal.addEventListener('shown.bs.modal', function() {
+            fixModalInteraction();
+            
+            // Focus first input when modal opens
+            const firstInput = this.querySelector('.form-control');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        });
+    }    // Simplified modal enhancement code - overlay has been removed
+    const modals = document.querySelectorAll('.modal');
+    
+    modals.forEach(function(modal) {
+        // When modal is about to be shown
+        modal.addEventListener('show.bs.modal', function() {
+            // Add class to body for any potential styling
+            document.body.classList.add('modal-showing');
+        });
+        
+        // When modal is fully shown
+        modal.addEventListener('shown.bs.modal', function() {
+            // Set opacity of form elements to ensure they're fully visible
+            const formElements = modal.querySelectorAll('input, textarea, select, button, .form-control');
+            formElements.forEach(function(el) {
+                el.style.opacity = '1';
+                el.style.visibility = 'visible';
+            });
+            
+            // Set background color of modal to be solid
+            const modalContent = modal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.style.backgroundColor = '#212529'; 
+                modalContent.style.opacity = '1';
+            }
+        });
+        
+        // When modal is hidden
+        modal.addEventListener('hidden.bs.modal', function() {
+            // Remove class from body 
+            document.body.classList.remove('modal-showing');
+        });
+    });
 });
