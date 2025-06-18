@@ -163,6 +163,24 @@ p small, small.text-muted {
     border-top-color: #495057 !important;
 }
 
+/* Disable Bootstrap's modal backdrop in dark theme */
+.modal-backdrop,
+.modal-backdrop.show {
+    opacity: 0 !important;
+    background-color: transparent !important;
+}
+
+/* Keep modal content visible but don't darken the rest of the page */
+.modal {
+    background-color: transparent !important;
+}
+
+/* Ensure modal content stands out without needing backdrop */
+.modal-content {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
 /* Form field labels */
 label.form-label {
     color: #e9ecef !important;

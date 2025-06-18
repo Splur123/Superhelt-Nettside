@@ -17,11 +17,15 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    <!-- Custom CSS with version parameter to prevent caching -->    <link rel="stylesheet" href="/css/style.css?v=<%= Date.now() %>" type="text/css">
     <link rel="stylesheet" href="/css/test.css?v=<%= Date.now() %>" type="text/type">
-    <link rel="stylesheet" href="/css/dark-theme.css?v=<%= Date.now() %>" type="text/css"><!-- CSS Debug disabled -->
-      <!-- Modal styling improvements -->
+    <link rel="stylesheet" href="/css/dark-theme.css?v=<%= Date.now() %>" type="text/css"><!-- CSS Debug disabled -->    <!-- Modal styling improvements - no darkening -->
     <style>
         .modal {
-            background-color: rgba(0, 0, 0, 0.5) !important;
+            background-color: transparent !important;
+        }
+        
+        .modal-backdrop {
+            opacity: 0 !important;
+            background-color: transparent !important;
         }
         
         .modal-content {
