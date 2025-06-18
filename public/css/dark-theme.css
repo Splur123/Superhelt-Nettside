@@ -1,0 +1,234 @@
+/* Dark Theme with better contrast */
+
+/* Global colors for dark mode */
+body {
+    background: linear-gradient(to bottom right, #000428, #004e92); /* Dark blue gradient */
+    color: #f8f9fa; /* Light text color for better contrast */
+}
+
+/* Ensure consistent dark theme for containers */
+.container, .container-fluid {
+    background-color: transparent; /* Keep the gradient background from body */
+    color: #f8f9fa; /* Light text */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Add a subtle dark semi-transparent overlay to all pages for better contrast */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Very subtle dark overlay */
+    pointer-events: none; /* Allow clicks to pass through */
+    z-index: -1; /* Behind all content */
+}
+
+/* Form cards with dark background */
+.form-card {
+    background-color: #212529 !important; /* Dark background */
+    color: #e9ecef !important; /* Light text */
+    border: 1px solid #495057 !important;
+}
+
+.form-card .card-body {
+    background-color: #212529 !important; /* Dark background for card body */
+    color: #e9ecef !important; /* Light text */
+    position: relative !important; /* Override absolute positioning from other styles */
+    height: auto !important; /* Override fixed height */
+    display: block !important;
+}
+
+/* Fix text-muted to be more visible on dark backgrounds */
+.text-muted {
+    color: #c2c7cc !important; /* Even lighter muted text for better contrast */
+}
+
+/* Make list items and search results more visible */
+.list-group-item {
+    background-color: #343a40 !important; /* Dark background */
+    color: #e9ecef !important; /* Light text */
+    border-color: #495057 !important;
+}
+
+.list-group-item-action:hover {
+    background-color: #495057 !important; /* Slightly lighter on hover */
+    color: #fff !important;
+}
+
+.list-group-item h5 {
+    color: #fff !important;
+}
+
+/* Ensure inputs and forms have proper contrast */
+input.form-control, select.form-control, textarea.form-control {
+    background-color: #343a40 !important; /* Dark input background */
+    border-color: #495057 !important;
+    color: #e9ecef !important; /* Light text */
+}
+
+input.form-control:focus, select.form-control:focus, textarea.form-control:focus {
+    background-color: #3b4249 !important; /* Slightly lighter when focused */
+    color: #fff !important;
+}
+
+/* Style alerts for better contrast */
+.alert-info {
+    background-color: #17415c !important; /* Darker blue */
+    color: #e9ecef !important;
+    border-color: #0dcaf0 !important;
+}
+
+/* Style the user-search result items */
+.list-group-item small {
+    color: #ced4da !important; /* Lighter small text */
+}
+
+/* Fix profile card sections */
+.profile-card .card-body p {
+    color: #ced4da !important; /* Ensure paragraph text is visible */
+}
+
+.profile-card h4, 
+.profile-card h5, 
+.profile-card h6 {
+    color: #fff !important;
+}
+
+.profile-card .card-body {
+    padding: 20px !important;
+}
+
+/* Additional styles for specific text cases */
+
+/* Make sure all text in bio sections is visible */
+.profile-card p.text-muted {
+    color: #ced4da !important; /* Even lighter for better contrast */
+}
+
+/* Fix any remaining text issues */
+.profile-card .card-body div {
+    color: #ced4da !important;
+}
+
+/* Specific style for member since text */
+p small, small.text-muted {
+    color: #ced4da !important;
+}
+
+/* Fix dropdown menus if used */
+.dropdown-menu {
+    background-color: #212529 !important;
+    border-color: #495057 !important;
+}
+
+.dropdown-item {
+    color: #e9ecef !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #495057 !important;
+    color: #fff !important;
+}
+
+/* Fix any other text in cards */
+.card .text-muted {
+    color: #ced4da !important;
+}
+
+/* Ensure contrast on any info alerts */
+.alert-info, .alert-warning, .alert-success, .alert-danger {
+    color: #fff !important;
+}
+
+.alert-info {
+    background-color: #055160 !important;
+}
+
+.alert-warning {
+    background-color: #664d03 !important;
+}
+
+.alert-success {
+    background-color: #0a3622 !important;
+}
+
+.alert-danger {
+    background-color: #58151c !important;
+}
+
+/* Better modal styling for dark theme */
+.modal-content {
+    background-color: #212529 !important; /* Dark background */
+    color: #e9ecef !important; /* Light text */
+}
+
+.modal-header {
+    border-bottom-color: #495057 !important;
+}
+
+.modal-footer {
+    border-top-color: #495057 !important;
+}
+
+/* Form field labels */
+label.form-label {
+    color: #e9ecef !important;
+}
+
+/* Form text */
+.form-text {
+    color: #adb5bd !important; /* Lighter muted text */
+}
+
+/* Form check */
+.form-check-label {
+    color: #e9ecef !important;
+}
+
+/* Override Bootstrap cards */
+.card {
+    background-color: #212529 !important; /* Dark background */
+}
+
+/* Removed conflicting favorite hero card styles - now handled by favorite-cards.css */
+
+/* Fix buttons */
+.btn-outline-primary {
+    color: #6ea8fe !important;
+    border-color: #6ea8fe !important;
+}
+
+.btn-outline-primary:hover {
+    color: #000 !important;
+    background-color: #6ea8fe !important;
+}
+
+.btn-outline-secondary {
+    color: #a7acb1 !important;
+    border-color: #a7acb1 !important;
+}
+
+.btn-outline-secondary:hover {
+    color: #000 !important;
+    background-color: #a7acb1 !important;
+}
+
+/* Fix dark mode card footer */
+.card-footer {
+    background-color: #1a1e21 !important;
+    border-top-color: #495057 !important;
+}
+
+/* Ensure bio, location, and favorite hero text is visible */
+.mb-3 p {
+    color: #ced4da !important;
+}
+
+/* Last resorts for any other elements with contrast issues */
+* {
+    color: inherit;
+}

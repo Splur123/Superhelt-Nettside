@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title><%= title %> | Superhero Website</title>
@@ -15,10 +15,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS with version parameter to prevent caching -->
-    <link rel="stylesheet" href="/css/style.css?v=<%= Date.now() %>" type="text/css">
-    <link rel="stylesheet" href="/css/test.css?v=<%= Date.now() %>" type="text/css">    <!-- CSS Debug disabled -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    <!-- Custom CSS with version parameter to prevent caching -->    <link rel="stylesheet" href="/css/style.css?v=<%= Date.now() %>" type="text/css">
+    <link rel="stylesheet" href="/css/test.css?v=<%= Date.now() %>" type="text/type">
+    <link rel="stylesheet" href="/css/dark-theme.css?v=<%= Date.now() %>" type="text/css"><!-- CSS Debug disabled -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // CSS loading detection is disabled
@@ -29,12 +28,12 @@
                     .filter(Boolean)
             );
         });
-    </script>
-    <style>
+    </script>    <style>
         /* Fallback styles in case external CSS fails to load */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(to bottom right, #000428, #004e92); /* Dark blue gradient */
+            color: #ffffff;
         }
         .navbar-brand {
             font-weight: bold;

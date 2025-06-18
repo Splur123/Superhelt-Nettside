@@ -19,6 +19,27 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    bio: {
+        type: String,
+        default: '',
+        maxlength: 500
+    },
+    location: {
+        type: String,
+        default: '',
+        trim: true,
+        maxlength: 100
+    },
+    favoriteHero: {
+        type: String,
+        default: '',
+        trim: true,
+        maxlength: 100
+    },
+    profilePrivate: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

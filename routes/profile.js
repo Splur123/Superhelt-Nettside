@@ -3,19 +3,28 @@ const router = express.Router();
 const profileController = require('../controllers/profileController');
 const { isAuthenticated } = require('../middleware/auth');
 
-// Apply authentication middleware to all profile routes
-router.use(isAuthenticated);
+// Routes that require authentication
+router.use('/favorites', isAuthenticated);
+router.use('/update', isAuthenticated);
 
-// Get user profile
+// Main profile page requires auth
+router.get('/', isAuthenticated, profileController.getProfile);
+
+// Get user profile (requires auth)
 router.get('/', profileController.getProfile);
 
-// Add a superhero to favorites (deprecated but kept for compatibility)
+// Update profile (requires auth)
+router.post('/update', profileController.updateProfile);
+
+// Favorite management routes (require auth)
 router.post('/favorites/add/:id', profileController.addToFavorites);
-
-// Remove a superhero from favorites (deprecated but kept for compatibility)
 router.post('/favorites/remove/:id', profileController.removeFromFavorites);
-
-// Toggle a superhero in favorites (new endpoint)
 router.post('/favorites/toggle/:id', profileController.toggleFavorites);
+
+// User search route (public)
+router.get('/search', profileController.searchUsers);
+
+// View public profile (public)
+router.get('/user/:id', profileController.getPublicProfile);
 
 module.exports = router;

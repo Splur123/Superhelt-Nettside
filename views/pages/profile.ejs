@@ -1,52 +1,139 @@
 <div class="container">
-    <div class="row">        <div class="col-lg-4 mb-4">
-            <!-- Profile Card -->
-            <div class="card shadow form-card">
+    <!-- Profile Information Section - Top Row -->
+    <div class="row mb-4">
+        <!-- Profile Card - Left Column -->
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="card shadow form-card profile-card h-100">
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0"><i class="fas fa-user me-2"></i>My Profile</h5>
-                </div>                <div class="card-body">
+                </div>
+                <div class="card-body">
                     <div class="text-center mb-3">
                         <img src="https://www.gravatar.com/avatar/<%= user.gravatarHash %>?s=200&d=mp" class="rounded-circle img-thumbnail" alt="Profile Image" style="width: 150px; height: 150px;">
                     </div>
                     <h4 class="text-center"><%= user.username %></h4>
                     <p class="text-muted text-center"><%= user.email %></p>
                     <p class="text-center"><small>Member since: <%= new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></small></p>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#profileEditModal">
+                            <i class="fas fa-edit me-1"></i> Edit Profile
+                        </button>
+                        <a href="/profile/search" class="btn btn-outline-secondary">
+                            <i class="fas fa-users me-1"></i> Find Users
+                        </a>                    </div>
                 </div>
             </div>
         </div>
-          <div class="col-lg-8">
-            <!-- Favorites Card -->
-            <div class="card shadow form-card">
+        
+        <!-- Bio and Info Card - Right Column -->
+        <div class="col-lg-6">
+            <div class="card shadow form-card profile-card h-100">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-heart me-2"></i>My Favorites</h5>
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>About Me</h5>
                 </div>
                 <div class="card-body">
-                    <% if (favorites && favorites.length > 0) { %>
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-                            <% favorites.forEach(hero => { %>
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>" style="height: 150px; object-fit: cover;">
-                                        <div class="card-body p-2">
-                                            <h6 class="card-title mb-0"><%= hero.name %></h6>
-                                        </div>
-                                        <div class="card-footer bg-transparent p-2">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <a href="/superhero/<%= hero.id %>" class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-info-circle"></i>
-                                                </a>
-                                                <form action="/profile/favorites/remove/<%= hero.id %>" method="POST">
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <% if (user.location) { %>
+                        <div class="mb-3">
+                            <h6><i class="fas fa-map-marker-alt me-2"></i>Location:</h6>
+                            <p class="text-muted"><%= user.location %></p>
+                        </div>
+                    <% } %>
+                    
+                    <% if (user.favoriteHero) { %>
+                        <div class="mb-3">
+                            <h6><i class="fas fa-star me-2"></i>Favorite Hero:</h6>
+                            <p class="text-muted"><%= user.favoriteHero %></p>
+                        </div>
+                    <% } %>
+                    
+                    <% if (user.bio) { %>
+                        <div class="mb-3">
+                            <h6><i class="fas fa-book me-2"></i>Bio:</h6>
+                            <p class="text-muted"><%= user.bio %></p>
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-3">
+                            <p class="text-muted"><i class="fas fa-edit me-1"></i> Edit your profile to add a bio</p>
+                        </div>
+                    <% } %>
+                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" disabled <%= user.profilePrivate ? 'checked' : '' %>>
+                        <label class="form-check-label text-muted">
+                            <i class="fas fa-lock me-1"></i> Private Profile
+                        </label>                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Favorites Section - Full Width Row Below Profile Info -->
+    <div class="row mt-4">        <div class="col-12">            <!-- Favorites Card -->
+            <div class="card shadow favorites-container" style="height: auto !important; overflow: visible;">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-heart me-2"></i>My Favorites</h5>
+                </div>                <div class="card-body" style="height: auto !important; overflow: visible;">
+                    <% if (favorites && favorites.length > 0) { %>                        <div class="expandable-grid">                            <% favorites.forEach(hero => { %>                                <div class="grid-item">
+                                    <a href="/superhero/<%= hero.id %>" class="card-link text-decoration-none">
+                                        <div class="card h-100 shadow-sm">
+                                            <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%= hero.name %></h5>
+                                                <% if (hero.biography && hero.biography.publisher) { %>
+                                                    <p class="hero-publisher">📍 <%= hero.biography.publisher %></p>
+                                                <% } %>
+                                                <% if (hero.biography && hero.biography.alignment) { %>
+                                                    <p class="hero-alignment">⚖️ <%= hero.biography.alignment %></p>
+                                                <% } %>
+                                                <% if (hero.powerstats) { %>
+                                                    <div class="hero-stats-overlay">                                                <% if (hero.powerstats.intelligence && hero.powerstats.intelligence !== 'null') { %>
+                                                            <span class="stat stat-intelligence">INT: <%= hero.powerstats.intelligence %></span>
+                                                        <% } else { %>
+                                                            <span class="stat stat-intelligence">INT: --</span>
+                                                        <% } %>
+                                                        <% if (hero.powerstats.strength && hero.powerstats.strength !== 'null') { %>
+                                                            <span class="stat stat-strength">STR: <%= hero.powerstats.strength %></span>
+                                                        <% } else { %>
+                                                            <span class="stat stat-strength">STR: --</span>
+                                                        <% } %>
+                                                        <% if (hero.powerstats.speed && hero.powerstats.speed !== 'null') { %>
+                                                            <span class="stat stat-speed">SPD: <%= hero.powerstats.speed %></span>
+                                                        <% } else { %>
+                                                            <span class="stat stat-speed">SPD: --</span>
+                                                        <% } %>
+                                                        <% if (hero.powerstats.durability && hero.powerstats.durability !== 'null') { %>
+                                                            <span class="stat stat-durability">DUR: <%= hero.powerstats.durability %></span>
+                                                        <% } else { %>
+                                                            <span class="stat stat-durability">DUR: --</span>
+                                                        <% } %>
+                                                        <% if (hero.powerstats.power && hero.powerstats.power !== 'null') { %>
+                                                            <span class="stat stat-power">PWR: <%= hero.powerstats.power %></span>
+                                                        <% } else { %>
+                                                            <span class="stat stat-power">PWR: --</span>
+                                                        <% } %>
+                                                        <% if (hero.powerstats.combat && hero.powerstats.combat !== 'null') { %>
+                                                            <span class="stat stat-combat">CBT: <%= hero.powerstats.combat %></span>
+                                                        <% } else { %>
+                                                            <span class="stat stat-combat">CBT: --</span>
+                                                        <% } %>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                            <div class="card-footer bg-transparent">
+                                                <form action="/profile/favorites/remove/<%= hero.id %>" method="POST" class="favorite-form" onclick="event.stopPropagation();">
+                                                    <button type="submit" class="btn btn-sm btn-outline-light favorite-btn favorited">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             <% }); %>
                         </div>
-                    <% } else { %>                        <div class="alert alert-info">
+                    <% } else { %>
+                        <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i> You don't have any favorites yet. Browse superheroes and click the heart to add them.
                         </div>
                         <a href="/" class="btn btn-primary">
@@ -55,6 +142,73 @@
                     <% } %>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Edit Modal -->
+<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content dark-modal">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="profileEditModalLabel"><i class="fas fa-edit me-2"></i>Edit Profile</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/profile/update" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="bio" class="form-label"><i class="fas fa-book me-2"></i>Bio (Max 500 characters)</label>
+                        <textarea 
+                            class="form-control" 
+                            id="bio" 
+                            name="bio" 
+                            rows="4" 
+                            maxlength="500"
+                            placeholder="Tell others about yourself..."
+                        ><%= user.bio || '' %></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="location" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Location</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="location" 
+                            name="location"
+                            maxlength="100"
+                            value="<%= user.location || '' %>"
+                            placeholder="e.g. New York, USA"
+                        >
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="favoriteHero" class="form-label"><i class="fas fa-star me-2"></i>Favorite Hero</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="favoriteHero" 
+                            name="favoriteHero"
+                            maxlength="100"
+                            value="<%= user.favoriteHero || '' %>"
+                            placeholder="e.g. Superman"
+                        >
+                    </div>
+                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="profilePrivate" name="profilePrivate" <%= user.profilePrivate ? 'checked' : '' %>>
+                        <label class="form-check-label" for="profilePrivate">
+                            <i class="fas fa-lock me-1"></i> Make my profile private
+                        </label>
+                        <div class="form-text text-muted">
+                            When enabled, other users cannot find or view your profile.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

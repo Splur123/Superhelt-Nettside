@@ -607,6 +607,91 @@ footer {
     color: gold;
 }
 
+/* Favorites container styling */
+.favorites-container .card-body {
+    position: static;
+    height: auto !important; /* Force auto height */
+    min-height: auto !important;
+    padding: 2rem;
+    padding-bottom: 3rem; /* Extra bottom padding to accommodate cards */
+    background: transparent; 
+    max-height: unset !important;
+    overflow: visible;
+    display: block; /* Change from flex to block for better content flow */
+}
+
+.favorites-container .card {
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+}
+
+.favorites-container .row {
+    margin-bottom: 2.5rem; /* Increased bottom margin for each row */
+}
+
+/* Ensure rows and columns aren't height constrained */
+.favorites-container .row {
+    height: auto !important;
+    max-height: unset !important;
+    min-height: unset !important;
+}
+
+.favorites-container .col {
+    height: auto !important; 
+    max-height: unset !important;
+    min-height: unset !important;
+}
+
+/* Additional spacing for favorites container */
+.favorites-container {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-height: unset !important;
+}
+
+/* Last row in favorites container needs extra space */
+.favorites-container .row:last-child {
+    margin-bottom: 50px;
+}
+
+/* Individual hero cards inside favorites */
+.favorites-container .card-link .card {
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+}
+
+.favorites-container .card-link .card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
+    color: #ffffff;
+    padding: 20px;
+    border: none;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 120;
+}
+
+/* Expandable grid class for favorites */
+.expandable-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    height: auto !important;
+    overflow: visible;
+    margin-bottom: 30px;
+}
+
 /* Make sure form cards are responsive */
 @media (max-width: 768px) {
     .form-card .card-body {

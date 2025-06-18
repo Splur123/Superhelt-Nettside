@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }    // Set hero images as card backgrounds
     setTimeout(function() {
-        const heroCards = document.querySelectorAll('.card');
+        // Only target individual hero cards within the grid, not container cards
+        const heroCards = document.querySelectorAll('.row-cols-1 .card');
         console.log('Found', heroCards.length, 'hero cards');
         
         heroCards.forEach(function(card, index) {

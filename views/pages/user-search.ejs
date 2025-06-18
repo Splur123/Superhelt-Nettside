@@ -1,0 +1,60 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">            <div class="card shadow form-card profile-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Find Users</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/profile/search" method="GET">
+                        <div class="input-group mb-4">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                name="username" 
+                                placeholder="Search by username..." 
+                                value="<%= locals.searchQuery || '' %>"
+                                required
+                            >
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-1"></i> Search
+                            </button>
+                        </div>
+                    </form>
+
+                    <% if (locals.users && locals.users.length > 0) { %>
+                        <h5 class="mb-3"><i class="fas fa-list me-2"></i>Search Results</h5>
+                        <div class="list-group">
+                            <% users.forEach(user => { %>
+                                <a href="/profile/user/<%= user.id %>" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 align-items-center">
+                                        <img 
+                                            src="https://www.gravatar.com/avatar/<%= user.gravatarHash %>?s=50&d=mp" 
+                                            class="rounded-circle me-3"
+                                            alt="<%= user.username %>'s avatar"
+                                            style="width: 50px; height: 50px;"
+                                        >
+                                        <div>
+                                            <h5 class="mb-1"><%= user.username %></h5>
+                                            <small class="text-muted">
+                                                Member since: <%= new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% }); %>
+                        </div>
+                    <% } else if (locals.searchQuery) { %>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>No users found matching "<%= searchQuery %>".
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-4">
+                            <i class="fas fa-search fa-3x mb-3 text-secondary"></i>
+                            <p class="text-muted">Enter a username to search for users</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

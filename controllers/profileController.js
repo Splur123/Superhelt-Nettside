@@ -21,6 +21,10 @@ exports.getProfile = async (req, res) => {
             user: {
                 username: user.username,
                 email: user.email,
+                bio: user.bio || '',
+                location: user.location || '',
+                favoriteHero: user.favoriteHero || '',
+                profilePrivate: user.profilePrivate || false,
                 createdAt: user.createdAt,
                 gravatarHash: gravatarHash
             },
@@ -149,5 +153,130 @@ exports.toggleFavorites = async (req, res) => {
         console.error('Error toggling favorites:', err);
         req.flash('error_msg', 'Could not update favorites');
         res.redirect('/');
+    }
+};
+
+// Search for users by username
+exports.searchUsers = async (req, res) => {
+    try {
+        console.log('User search endpoint hit with query:', req.query);
+        const searchQuery = req.query.username || '';
+        
+        console.log(`Executing search for username: "${searchQuery}"`);
+        
+        if (!searchQuery) {
+            console.log('No search query provided, rendering empty search page');
+            return res.render('pages/user-search', {
+                title: 'User Search',
+                users: [],
+                searchQuery: ''
+            });
+        }
+        
+        // Search for users with similar usernames
+        // Using case-insensitive regex for partial matches
+        const searchRegex = new RegExp(searchQuery, 'i');
+        console.log(`Using search regex: ${searchRegex}`);
+        
+        const users = await User.find({
+            username: searchRegex,
+            profilePrivate: { $ne: true } // Exclude private profiles
+        }).select('username email createdAt'); // Only select necessary fields
+        
+        console.log(`Search found ${users.length} users`);
+        
+        // Generate Gravatar hash for each user
+        const usersWithGravatar = users.map(user => {
+            const gravatarHash = crypto.createHash('md5').update(user.email.toLowerCase()).digest('hex');
+            return {
+                id: user._id,
+                username: user.username,
+                gravatarHash,
+                createdAt: user.createdAt
+            };
+        });
+        
+        console.log('Rendering user search results page');
+        res.render('pages/user-search', {
+            title: 'User Search Results',
+            users: usersWithGravatar,
+            searchQuery
+        });
+    } catch (err) {
+        console.error('Error searching users:', err);
+        req.flash('error_msg', 'An error occurred during user search');
+        res.redirect('/profile');
+    }
+};
+
+// View public profile of another user
+exports.getPublicProfile = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId).populate('favorites');
+        
+        if (!user) {
+            req.flash('error_msg', 'User not found');
+            return res.redirect('/profile/search');
+        }
+        
+        // Check if profile is private
+        if (user.profilePrivate && (!req.session.user || req.session.user.id !== userId)) {
+            req.flash('error_msg', 'This profile is private');
+            return res.redirect('/profile/search');
+        }
+        
+        // Generate Gravatar hash
+        const gravatarHash = user.email ? crypto.createHash('md5').update(user.email.toLowerCase()).digest('hex') : '';
+        
+        res.render('pages/public-profile', {
+            title: `${user.username}'s Profile`,
+            profile: {
+                id: user._id,
+                username: user.username,
+                bio: user.bio || '',
+                location: user.location || '',
+                favoriteHero: user.favoriteHero || '',
+                createdAt: user.createdAt,
+                gravatarHash: gravatarHash
+            },
+            favorites: user.favorites
+        });
+    } catch (err) {
+        console.error('Error getting public profile:', err);
+        req.flash('error_msg', 'Could not fetch user profile');
+        res.redirect('/profile/search');
+    }
+};
+
+// Update the profile
+exports.updateProfile = async (req, res) => {
+    try {
+        const userId = req.session.user.id;
+        const { bio, location, favoriteHero, profilePrivate } = req.body;
+        
+        // Find user and update fields
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { 
+                bio: bio || '',
+                location: location || '',
+                favoriteHero: favoriteHero || '',
+                profilePrivate: profilePrivate === 'on'
+            },
+            { new: true }
+        );
+        
+        if (!user) {
+            req.flash('error_msg', 'User not found');
+            return res.redirect('/profile');
+        }
+        
+        req.flash('success_msg', 'Profile updated successfully');
+        res.redirect('/profile');
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        req.flash('error_msg', 'Failed to update profile');
+        res.redirect('/profile');
     }
 };
