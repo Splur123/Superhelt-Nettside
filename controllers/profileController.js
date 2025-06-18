@@ -103,6 +103,7 @@ exports.removeFromFavorites = async (req, res) => {
 // Toggle a superhero in favorites (add if not favorited, remove if already favorited)
 exports.toggleFavorites = async (req, res) => {
     try {
+        console.log('Toggle favorites request received for hero:', req.params.id);
         const userId = req.session.user.id;
         const superheroId = req.params.id;
         const returnUrl = req.query.returnUrl || `/superhero/${superheroId}`;
@@ -123,6 +124,7 @@ exports.toggleFavorites = async (req, res) => {
         
         // Check if already in favorites
         const alreadyFavorited = user.favorites.some(id => id.equals(superhero._id));
+        console.log(`Hero ${superhero.name} (${superhero.id}) already favorited: ${alreadyFavorited}`);
         
         if (alreadyFavorited) {
             // Remove from favorites
@@ -134,6 +136,12 @@ exports.toggleFavorites = async (req, res) => {
             user.favorites.push(superhero._id);
             await user.save();
             req.flash('success_msg', `${superhero.name} has been added to your favorites`);
+        }
+        
+        // Invalidate the top heroes cache so it will be refreshed on next page load
+        if (req.app.locals.topHeroesCache) {
+            req.app.locals.topHeroesCache.invalidate();
+            console.log('Top heroes cache invalidated due to favorite update');
         }
         
         res.redirect(returnUrl);

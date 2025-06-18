@@ -1,4 +1,5 @@
 const axios = require('axios');
+const mongoose = require('mongoose');
 const Superhero = require('../models/Superhero');
 
 const API_URL = process.env.SUPERHERO_API_URL;
@@ -339,6 +340,75 @@ exports.saveHeroToDatabase = async (heroData) => {
         return savedHero;
     } catch (error) {
         console.error(`Error saving hero to database:`, error);
+        throw error;
+    }
+};
+
+/**
+ * Get top favorited superheroes
+ * @param {Number} limit - Maximum number of superheroes to return (default: 10)
+ * @returns {Promise<Array>} - Array of superheroes with favorite count
+ */
+exports.getTopFavoritedSuperheroes = async (limit = 10) => {
+    try {
+        const User = require('../models/User');
+        const Superhero = require('../models/Superhero');
+        
+        console.log("Fetching top favorited heroes...");
+
+        // Simpler approach: collect favorites from all users
+        const users = await User.find();
+        let heroesCounter = {};
+
+        // Count favorites for each hero
+        for (const user of users) {
+            if (user.favorites && user.favorites.length > 0) {
+                for (const favoriteId of user.favorites) {
+                    const heroKey = favoriteId.toString();
+                    if (!heroesCounter[heroKey]) {
+                        heroesCounter[heroKey] = 0;
+                    }
+                    heroesCounter[heroKey]++;
+                }
+            }
+        }
+        
+        // Convert to array and sort
+        let topHeroesIds = Object.keys(heroesCounter)
+            .sort((a, b) => heroesCounter[b] - heroesCounter[a])
+            .slice(0, limit);
+
+        console.log(`Found ${topHeroesIds.length} top heroes`);
+
+        // No top heroes found
+        if (topHeroesIds.length === 0) {
+            return [];
+        }        // Get hero details
+        const heroes = await Superhero.find({
+            _id: { $in: topHeroesIds.map(id => new mongoose.Types.ObjectId(id)) }
+        });
+
+        console.log(`Fetched ${heroes.length} heroes from database`);
+
+        // Sort heroes by favorite count and add rank and favorite count
+        const result = heroes
+            .map(hero => {
+                const favoriteCount = heroesCounter[hero._id.toString()];
+                return {
+                    ...hero.toObject(),
+                    favoriteCount: favoriteCount
+                };
+            })
+            .sort((a, b) => b.favoriteCount - a.favoriteCount)
+            .map((hero, index) => ({
+                ...hero,
+                rank: index + 1
+            }));
+
+        console.log(`Returning ${result.length} top favorited heroes`);
+        return result;
+    } catch (error) {
+        console.error('Error in getTopFavoritedSuperheroes:', error);
         throw error;
     }
 };

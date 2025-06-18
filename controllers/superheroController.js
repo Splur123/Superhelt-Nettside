@@ -129,3 +129,38 @@ exports.searchSuperheroes = async (req, res) => {
         res.redirect('/');
     }
 };
+
+// Get top favorited superheroes
+exports.getTopFavorites = async (req, res) => {
+    try {
+        console.log("Getting top favorited heroes");
+        
+        // Get top 10 favorited heroes
+        const topHeroes = await superheroService.getTopFavoritedSuperheroes(10);
+        console.log(`Controller received ${topHeroes.length} top heroes`);
+        
+        // Get user favorites if logged in
+        let userFavorites = [];
+        if (req.session && req.session.user) {
+            userFavorites = await getUserFavoriteIds(req.session.user.id);
+            console.log(`User has ${userFavorites.length} favorites`);
+        }
+          // Log the heroes we're sending to the template
+        topHeroes.forEach((hero, index) => {
+            console.log(`Top hero ${index + 1}: ${hero.name} (${hero.id}) - ${hero.favoriteCount} favorites`);
+        });
+        
+        // Debug full object structure
+        console.log('Debug - First hero complete object:', JSON.stringify(topHeroes[0], null, 2));
+        
+        res.render('pages/top-favorites', {
+            title: 'Top 10 Most Favorited Heroes',
+            superheroes: topHeroes,
+            userFavorites
+        });
+    } catch (err) {
+        console.error('Error getting top favorites:', err);
+        req.flash('error_msg', 'Could not fetch top favorited heroes');
+        res.redirect('/');
+    }
+};

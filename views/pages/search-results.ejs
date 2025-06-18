@@ -4,7 +4,11 @@
     <% if (superheroes && superheroes.length > 0) { %>
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">            <% superheroes.forEach(hero => { %>                <div class="col">
                     <a href="/superhero/<%= hero.id %>" class="card-link text-decoration-none">
-                        <div class="card h-100 shadow-sm">
+                        <% const isTopHero = locals.topHeroIds && locals.topHeroIds.includes(hero.id); %>
+                        <div class="card h-100 shadow-sm <%= isTopHero ? 'top-hero-card' : '' %>">
+                            <% if (isTopHero && locals.topHeroRanks) { %>
+                                <div class="top-hero-rank">#<%= locals.topHeroRanks[hero.id] %></div>
+                            <% } %>
                             <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>">
                             <div class="card-body">
                                 <h5 class="card-title"><%= hero.name %></h5>
@@ -13,7 +17,7 @@
                                 <% } %>
                                 <% if (hero.biography && hero.biography.alignment) { %>
                                     <p class="hero-alignment">⚖️ <%= hero.biography.alignment %></p>
-                                <% } %>                            <% if (hero.powerstats) { %>
+                                <% } %><% if (hero.powerstats) { %>
                                     <div class="hero-stats-overlay">
                                         <% if (hero.powerstats.intelligence && hero.powerstats.intelligence !== 'null') { %>
                                             <span class="stat stat-intelligence">INT: <%= hero.powerstats.intelligence %></span>

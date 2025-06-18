@@ -8,4 +8,7 @@ router.get('/', superheroController.getAllSuperheroes);
 // Search superheroes
 router.get('/search', superheroController.searchSuperheroes);
 
+// Top favorites page - show top 10 most favorited superheroes
+router.get('/top-favorites', superheroController.getTopFavorites);
+
 module.exports = router;

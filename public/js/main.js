@@ -64,9 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('No image found for card', index);
             }
         });
-    }, 100);
-
-    function setCardBackground(card, img, index) {
+    }, 100);    function setCardBackground(card, img, index) {
         const imageUrl = img.src;
         console.log('Setting background for card', index, 'with image:', imageUrl);
         
@@ -76,12 +74,14 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.backgroundPosition = 'center';
         card.style.backgroundRepeat = 'no-repeat';
         
-        // Hide the img element after a short delay
+        // Don't hide the images for now
+        /* 
         setTimeout(function() {
             img.style.opacity = '0';
             setTimeout(function() {
                 img.style.display = 'none';
             }, 300);
         }, 500);
+        */
     }
 });

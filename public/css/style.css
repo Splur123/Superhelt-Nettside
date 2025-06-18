@@ -69,7 +69,7 @@ body {
     top: 0;
     left: 0;
     z-index: 110;
-    opacity: 1; /* Make sure it's visible */
+    opacity: 1 !important; /* Force visibility */
     transition: opacity 0.3s ease; /* Smooth fade transition */
     display: block !important;
     visibility: visible !important;
@@ -535,6 +535,76 @@ footer {
 .form-card .d-grid {
     margin-bottom: 0;
     margin-top: 1rem;
+}
+
+/* Top Favorites Styling */
+.top-hero-card {
+    border: 3px solid gold !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7) !important;
+}
+
+.top-hero-rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(to bottom right, #ffd700, #ffa500); /* gold gradient */
+    color: #000;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    z-index: 150;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    border: 2px solid #ffffff;
+}
+
+.top-hero-stats {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: gold;
+    font-weight: bold;
+}
+
+.top-favorites-header {
+    text-align: center;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.top-favorites-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.top-favorites-header p {
+    color: #adb5bd;
+    font-size: 1.1rem;
+}
+
+.trophy-icon {
+    color: gold;
+    margin-right: 0.5rem;
+}
+
+/* Gold star for favorite count */
+.favorite-count {
+    display: inline-flex;
+    align-items: center;
+    color: gold;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.favorite-count i {
+    margin-right: 5px;
+    color: gold;
 }
 
 /* Make sure form cards are responsive */

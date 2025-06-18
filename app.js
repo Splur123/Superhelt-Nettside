@@ -77,11 +77,48 @@ app.use(session({
 }));
 app.use(flash());
 
+// Initialize empty cache for top heroes - exported to be accessible to other modules
+const topHeroesCache = {
+    heroes: [],
+    ranks: {},
+    lastUpdated: 0,
+    // Function to invalidate the cache
+    invalidate: function() {
+        console.log('Invalidating top heroes cache');
+        this.lastUpdated = 0;
+    }
+};
+
+// Export cache for use in other modules
+app.locals.topHeroesCache = topHeroesCache;
+
 // Set global variables for templates
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
+    res.locals.path = req.path; // Add current path to all views
+      // Cache top heroes for 30 seconds to keep favorites relatively fresh
+    const now = Date.now();
+    if (now - topHeroesCache.lastUpdated > 30000) { // 30 seconds in milliseconds
+        try {
+            const superheroService = require('./services/superheroService');
+            const topHeroes = await superheroService.getTopFavoritedSuperheroes(10);
+              // Update cache
+            topHeroesCache.heroes = topHeroes.map(hero => hero.id); // Store IDs
+            topHeroesCache.ranks = Object.fromEntries(topHeroes.map(hero => [hero.id, hero.rank]));
+            topHeroesCache.lastUpdated = now;
+            
+            console.log('Top heroes cache updated with', topHeroes.length, 'heroes');
+        } catch (err) {
+            console.error('Error fetching top heroes for cache:', err);
+        }
+    }
+    
+    // Add top heroes to locals for use in templates
+    res.locals.topHeroIds = topHeroesCache.heroes;
+    res.locals.topHeroRanks = topHeroesCache.ranks;
+    
     next();
 });
 

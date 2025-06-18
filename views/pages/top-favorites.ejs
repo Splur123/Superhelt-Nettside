@@ -1,38 +1,25 @@
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8 text-center text-lg-start">                <h1 class="display-4 mb-3 text-white">Explore the Superhero Universe</h1>
-                <p class="lead text-white-50 mb-4">Find information about your favorite superheroes from DC, Marvel and other universes.</p>
-                <form class="d-flex search-hero" action="/search" method="GET">
-                    <input class="form-control me-2 form-control-lg" type="search" name="q" placeholder="Search for superhero..." aria-label="Search" value="<%= typeof search !== 'undefined' ? search : '' %>">
-                    <button class="btn btn-primary btn-lg" type="submit">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </form>
-                <div class="mt-4">
-                    <a href="/top-favorites" class="btn btn-outline-warning btn-lg">
-                        <i class="fas fa-trophy me-2"></i>View Top 10 Heroes
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- Top Favorites Hero Section -->
+<div class="top-favorites-header">
+    <h1><i class="fas fa-trophy trophy-icon"></i>Top 10 Most Favorited Heroes</h1>
+    <p>The most popular superheroes chosen by our community</p>
+</div>
 
 <!-- Superheroes Section -->
 <section class="py-4">
-    <div class="container">
-        <h2 class="mb-4">Superheroes</h2>
-        
-        <% if (superheroes && superheroes.length > 0) { %>
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">                <% superheroes.forEach(hero => { %>                    <div class="col">
+    <div class="container">        <% if (superheroes && superheroes.length > 0) { %>
+            <!-- Debugging info -->
+            <% console.log("Number of heroes:", superheroes.length); %>
+            <% console.log("First hero:", JSON.stringify(superheroes[0])); %>
+            
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+                <% superheroes.forEach((hero, index) => { %>
+                    <% console.log(`Rendering hero ${index + 1}:`, hero.name, hero.id); %>
+                    <div class="col">
                         <a href="/superhero/<%= hero.id %>" class="card-link text-decoration-none">
-                            <% const isTopHero = locals.topHeroIds && locals.topHeroIds.includes(hero.id); %>
-                            <div class="card h-100 shadow-sm <%= isTopHero ? 'top-hero-card' : '' %>">
-                                <% if (isTopHero && locals.topHeroRanks) { %>
-                                    <div class="top-hero-rank">#<%= locals.topHeroRanks[hero.id] %></div>
-                                <% } %>
+                            <div class="card h-100 shadow-sm top-hero-card">
+                                <!-- Ranking badge -->
+                                <div class="top-hero-rank">#<%= hero.rank %></div>
+                                
                                 <img src="<%= hero.image.url %>" class="card-img-top" alt="<%= hero.name %>">
                                 <div class="card-body">
                                     <h5 class="card-title"><%= hero.name %></h5>
@@ -41,7 +28,11 @@
                                     <% } %>
                                     <% if (hero.biography && hero.biography.alignment) { %>
                                         <p class="hero-alignment">⚖️ <%= hero.biography.alignment %></p>
-                                    <% } %><% if (hero.powerstats) { %>
+                                    <% } %>
+                                    <div class="favorite-count">
+                                        <i class="fas fa-star"></i> <%= hero.favoriteCount %> favorites
+                                    </div>
+                                    <% if (hero.powerstats) { %>
                                         <div class="hero-stats-overlay">
                                             <% if (hero.powerstats.intelligence && hero.powerstats.intelligence !== 'null') { %>
                                                 <span class="stat stat-intelligence">INT: <%= hero.powerstats.intelligence %></span>
@@ -75,9 +66,10 @@
                                             <% } %>
                                         </div>
                                     <% } %>
-                                </div>                                <% if (locals.user) { %>
+                                </div>
+                                <% if (locals.user) { %>
                                     <div class="card-footer bg-transparent">
-                                        <form action="/profile/favorites/toggle/<%= hero.id %>?returnUrl=/" method="POST" class="favorite-form" onclick="event.stopPropagation();">
+                                        <form action="/profile/favorites/toggle/<%= hero.id %>?returnUrl=/top-favorites" method="POST" class="favorite-form" onclick="event.stopPropagation();">
                                             <% const isFavorited = userFavorites && userFavorites.includes(hero.id); %>
                                             <button type="submit" class="btn btn-sm btn-outline-light favorite-btn <%= isFavorited ? 'favorited' : '' %>">
                                                 <i class="<%= isFavorited ? 'fas' : 'far' %> fa-heart"></i>
@@ -90,45 +82,9 @@
                     </div>
                 <% }); %>
             </div>
-            
-            <!-- Pagination -->
-            <% if (totalPages > 1) { %>
-                <nav aria-label="Page navigation" class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <% if (currentPage > 1) { %>                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %><%= search ? '&search=' + search : '' %>">Previous</a>
-                            </li>
-                        <% } else { %>
-                            <li class="page-item disabled">
-                                <span class="page-link">Previous</span>
-                            </li>
-                        <% } %>
-                        
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <% if (i === currentPage) { %>
-                                <li class="page-item active">
-                                    <span class="page-link"><%= i %></span>
-                                </li>
-                            <% } else { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= i %><%= search ? '&search=' + search : '' %>"><%= i %></a>
-                                </li>
-                            <% } %>
-                        <% } %>
-                        
-                        <% if (currentPage < totalPages) { %>                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage + 1 %><%= search ? '&search=' + search : '' %>">Next</a>
-                            </li>
-                        <% } else { %>
-                            <li class="page-item disabled">
-                                <span class="page-link">Next</span>
-                            </li>
-                        <% } %>
-                    </ul>
-                </nav>
-            <% } %>
-        <% } else { %>            <div class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i> No superheroes found.
+        <% } else { %>
+            <div class="alert alert-info">
+                No favorite heroes yet! As users favorite heroes, they will appear here.
             </div>
         <% } %>
     </div>
